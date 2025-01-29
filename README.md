@@ -58,6 +58,12 @@ config = load_config("/path/to/config.toml")
 - `speed`：车速
     $\mathrm{speed} = \lfloor \mathrm{raw\_speed} \times 10 \rfloor$
 
+如果你暂时没有数据，可以使用 `scripts/generate_test_dataset.py` 脚本生成一些随机数据。
+
+```shell
+python3 ./scripts/generate_test_dataset.py
+```
+
 ### 数据预处理
 
 ```shell
