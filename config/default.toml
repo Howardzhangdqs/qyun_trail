@@ -1,4 +1,7 @@
 dataset_path = "./dataset"
+preprocessed_path = "./preprocessed"
+
+img_size = [320, 240]
 
 [model]
 backbone = "resnet18"

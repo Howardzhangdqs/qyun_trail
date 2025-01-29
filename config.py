@@ -1,5 +1,5 @@
-from config import load_config, Config
+from utils import load_config, Config
 
-config = load_config('./toml/default.toml')
+config = load_config('./config/default.toml')
 
 print(config.__dict__)
