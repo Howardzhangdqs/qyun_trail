@@ -1,5 +1,7 @@
 from utils import load_config, Config
 
-config = load_config('./config/default.toml')
+config = load_config('./cfg/default.toml')
 
-print(config.__dict__)
+if __name__ == "__main__":
+    from rich import print
+    print(config.__dict__)
