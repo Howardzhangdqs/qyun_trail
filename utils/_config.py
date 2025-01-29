@@ -12,6 +12,7 @@ class Config:
         self.dataset_path = "./dataset"
         self.preprocessed_path = "./preprocessed"
         self.img_size = [320, 240]
+        self.dataset_propotion = 0.8
 
         # 嵌套配置默认值
         self.model = self.ModelConfig()

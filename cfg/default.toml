@@ -3,6 +3,8 @@ preprocessed_path = "./preprocessed"
 
 img_size = [320, 240]
 
+dataset_propotion = 0.8
+
 [model]
 backbone = "resnet18"
 size = 0.5
