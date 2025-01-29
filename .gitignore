@@ -1,6 +1,5 @@
-runs
+__pycache__/
 
-__pycache__
-
-preprocessed/
 dataset/
+preprocessed/
+runs/
