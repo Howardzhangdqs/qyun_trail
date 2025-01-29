@@ -101,14 +101,14 @@ class GhostBottleneck(nn.Module):
 
 # 轻量级MobileNetV3骨干网络
 class MobileNetV3Lite(nn.Module):
-    def __init__(self, scale='1x'):
+    def __init__(self, scale: str = '1x', in_channels: int = 3):
         super().__init__()
         cfg = backbone_cfg[scale]
         self.out_channels_list = []  # 新增输出通道记录
 
         # 初始stem层
         self.stem = nn.Sequential(
-            nn.Conv2d(3, cfg['channels'][0], 3, stride=2, padding=1, bias=False),
+            nn.Conv2d(in_channels, cfg['channels'][0], 3, stride=2, padding=1, bias=False),
             nn.BatchNorm2d(cfg['channels'][0]),
             nn.Hardswish()
         )
@@ -235,9 +235,9 @@ class SteeringHead(nn.Module):
 
 # 修改完整模型类
 class LaneDetectionModel(nn.Module):
-    def __init__(self, scale='1x'):
+    def __init__(self, scale='1x', in_channels=3):
         super().__init__()
-        self.backbone = MobileNetV3Lite(scale)
+        self.backbone = MobileNetV3Lite(scale, in_channels=in_channels)
         self.neck = BiFPNLite(self.backbone.out_channels_list)
         self.steering_head = SteeringHead(128)  # 新增转向头
 
@@ -250,8 +250,8 @@ class LaneDetectionModel(nn.Module):
 
 # 使用示例
 if __name__ == '__main__':
-    model = LaneDetectionModel('0.25x')
-    dummy = torch.randn(2, 3, 224, 224)
+    model = LaneDetectionModel('0.25x', in_channels=1)
+    dummy = torch.randn(2, 1, 224, 224)
     outputs = model(dummy)
     print(f"Model parameters: {sum(p.numel() for p in model.parameters())}")
     print(f"Steering output shape: {outputs.shape}")
