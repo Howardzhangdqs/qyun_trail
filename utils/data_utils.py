@@ -49,10 +49,14 @@ def get_image_paths(data_dir):
 
 
 def format_metadata(metadata):
-    return f"imgid: {metadata['imgid']}, angle: {metadata['angle']}, speed: {metadata['speed']}"
+    return f"imgid: {metadata['imgid']}, angle: {metadata['angle']:.3f}, speed: {metadata['speed']:.3f}"
 
 
 if __name__ == "__main__":
+
+    import sys
+    sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
     from config import config
     data_dir = config.dataset_path
     output_dir = config.preprocessed_path
