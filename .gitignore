@@ -5,6 +5,7 @@ preprocessed/
 
 runs/
 checkpoints/
+export/
 logs/
 
 *.tmp.*
