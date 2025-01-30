@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from torch.amp import autocast, GradScaler
 from torchvision import transforms
 from albumentations import Compose, RandomBrightnessContrast, HorizontalFlip
 from albumentations.pytorch import ToTensorV2
