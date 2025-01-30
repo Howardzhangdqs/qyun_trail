@@ -32,8 +32,8 @@ if __name__ == "__main__":
                         help="权重衰减")
     parser.add_argument("-g", "--grad_accum", type=int, default=TrainingConfig.grad_accum_steps,
                         help="梯度累积步数")
-    parser.add_argument("-a", "--amp", type=bool, default=TrainingConfig.amp_enabled,
-                        help="启用自动混合精度训练")
+    # parser.add_argument("-a", "--amp", type=bool, default=TrainingConfig.amp_enabled,
+    #                     help="启用自动混合精度训练")
 
     args = parser.parse_args()
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     training_config.warmup_epochs = args.warmup
     training_config.weight_decay = args.weight_decay
     training_config.grad_accum_steps = args.grad_accum
-    training_config.amp_enabled = args.amp
+    # training_config.amp_enabled = args.amp
 
     training_config.print()
 
