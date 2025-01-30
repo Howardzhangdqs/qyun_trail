@@ -105,6 +105,7 @@ def get_transforms():
 class Trainer:
     def __init__(self, config):
         self.config = config
+        self.scaler = GradScaler(device="cuda", enabled=config.amp_enabled)
 
         # 初始化模型
         self.model = LaneDetectionModel().to(config.device)
@@ -124,13 +125,13 @@ class Trainer:
             train_dataset,
             batch_size=config.batch_size,
             shuffle=True,
-            # num_workers=4,
+            num_workers=4,
             pin_memory=True
         )
         self.val_loader = DataLoader(
             test_dataset,
             batch_size=config.batch_size,
-            # num_workers=2,
+            num_workers=2,
             pin_memory=True
         )
 
@@ -167,22 +168,27 @@ class Trainer:
             images = images.to(self.config.device)
             angles = angles.to(self.config.device)
 
-            outputs = self.model(images)
-            loss = self.loss_fn(outputs.squeeze(), angles)
-            loss = loss / self.config.grad_accum_steps
+            # print(images.shape, angles.shape)
 
-            loss.backward()
+            with autocast(device_type="cuda", enabled=self.config.amp_enabled):
+                outputs = self.model(images)
+                loss = self.loss_fn(outputs.squeeze(), angles)
+                loss = loss / self.config.grad_accum_steps
+
+            self.scaler.scale(loss).backward()
 
             # 梯度累积
             if (batch_idx + 1) % self.config.grad_accum_steps == 0:
                 # 梯度裁剪
+                self.scaler.unscale_(self.optimizer)
                 nn.utils.clip_grad_norm_(
                     self.model.parameters(),
                     self.config.max_grad_norm
                 )
 
                 # 参数更新
-                self.optimizer.step()
+                self.scaler.step(self.optimizer)
+                self.scaler.update()
                 self.optimizer.zero_grad()
                 self.scheduler.step()
 
