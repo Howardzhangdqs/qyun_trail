@@ -84,6 +84,24 @@ python3 ./scripts/preprocess.py -c /path/to/config.toml
 python3 ./scripts/train.py
 ```
 
+你可以通过以下参数自定义训练配置：
+
+- `-d`, `--device`：用于训练模型的设备（默认值为 `"cuda"`，如果不可用则为 `"cpu"`）
+- `-c`, `--checkpoint`：继续训练的模型检查点路径（默认值为 `./checkpoints`）
+- `-l`, `--log`：日志目录路径（默认值为 `./logs`）
+- `-e`, `--epochs`：训练的轮数（默认值为 `100`）
+- `-b`, `--batch_size`：批处理大小（默认值为 `16`）
+- `-lr`, `--learning_rate`：学习率（默认值为 `3e-4`）
+- `-w`, `--warmup`：预热轮数（默认值为 `5`）
+- `-wd`, `--weight_decay`：权重衰减（默认值为 `0.05`）
+- `-g`, `--grad_accum`：梯度累积步数（默认值为 `2`）
+
+例如，使用自定义配置进行训练：
+
+```shell
+python3 ./scripts/train.py -d cuda -e 50 -b 32 -lr 0.001
+```
+
 ## 开源协议
 
 本项目以自定义开源许可证形式开源。
